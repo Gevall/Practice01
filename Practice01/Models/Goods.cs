@@ -8,6 +8,8 @@ namespace Practice01.Models
 {
     internal class Goods
     {
+        public Goods() { }
+
         private int id;
         private string nameOfProduct;
         private string numericValue;

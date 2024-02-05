@@ -8,6 +8,8 @@ namespace Practice01.Models
 {
     internal class Orders
     {
+        public Orders() { }
+
         private int id;
         private int productId;
         private int clientId;
@@ -21,7 +23,5 @@ namespace Practice01.Models
         public int PurshaseId { get { return purshaseId; } set {  purshaseId = value; } }
         public int ValueOfProducts { get { return valueOfProducts; } set { valueOfProducts = value; } }
         public DateTime DateOfOrder { get {  return dateOfOrder; } set {  dateOfOrder = value; } }
-
-
     }
 }

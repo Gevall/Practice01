@@ -10,27 +10,21 @@ using System.Threading.Tasks;
 
 namespace Practice01.Logic
 {
-    internal class ReadDataClients : IReadData
+    internal class ReadDataClients : IReadDataClients
     {
-        public void ReadDataFromFile(string path)
+        public List<Clients> ReadClientsDataFromFile(string path)
         {
+            List<Clients> clients = new();
 
             var wbBook = new XLWorkbook(path);
 
             var wsl = wbBook.Worksheet(2);
             var countOfRows = wsl.Rows();
 
-            List<Clients> clients = new List<Clients>();
-
-            int count = 0;
-
-            Console.WriteLine($">>>{countOfRows.Count()}");
-
             for (int i = 2; i < countOfRows.Count() + 1; i++)
             {
                 var row = wsl.Row(i);
-                //count++;
-                //Console.WriteLine($"id = {row.Cell(1).GetValue<string>()} Organisation = {row.Cell(2).GetValue<string>()} Address = {row.Cell(4).GetValue<string>()} Contact = {row.Cell(4).GetValue<string>()}");
+
                 if (row.IsEmpty())
                 {
                     break;
@@ -47,12 +41,13 @@ namespace Practice01.Logic
                 }
 
             }
-            //Console.WriteLine(count) ;
 
-            foreach (Clients client in clients)
-            {
-                Console.WriteLine($"id = {client.Id} name = {client.NameOfOrganisation} numeric = {client.AddressOfOrganisation} price = {client.ContactName}");
-            }
+            //foreach (Clients client in clients)
+            //{
+            //    Console.WriteLine($"id = {client.Id} name = {client.NameOfOrganisation} numeric = {client.AddressOfOrganisation} price = {client.ContactName}");
+            //}
+
+            return clients;
         }
     }
 }

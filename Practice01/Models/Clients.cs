@@ -8,6 +8,8 @@ namespace Practice01.Models
 {
     internal class Clients
     {
+        public Clients() { }
+
         private int id;
         private string nameOfOrganisation;
         private string addressOfOrganisation;

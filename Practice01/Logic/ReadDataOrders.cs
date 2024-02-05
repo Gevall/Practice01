@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace Practice01.Logic
 {
-    internal class ReadDataOrders : IReadData
+    internal class ReadDataOrders : IReadDataOrders
     {
-        public void ReadDataFromFile(string path)
+        public List<Orders> ReadOrdersDataFromFile(string path)
         {
+            List<Orders> orders = new();
+
             var wbBook = new XLWorkbook(path);
 
             var wsl = wbBook.Worksheet(3);
             var countOfRows = wsl.Rows();
-            //Console.WriteLine($">>> {test.Count()}");
 
-            List<Orders> order = new List<Orders>();
 
             for (int i = 2; i < countOfRows.Count() + 1; i++)
             {
@@ -31,7 +31,7 @@ namespace Practice01.Logic
                 }
                 else
                 {
-                    order.Add(new Orders
+                    orders.Add(new Orders
                     {
                         Id = Int32.Parse(row.Cell(1).GetValue<string>()),
                         ProductId = Int32.Parse(row.Cell(2).GetValue<string>()),
@@ -43,10 +43,11 @@ namespace Practice01.Logic
                 }
             }
 
-            foreach (Orders ord in order)
-            {
-                Console.WriteLine($"id = {ord.Id} ID Заказа: {ord.ProductId} ClientID: {ord.ClientId} PurshaseID: {ord.PurshaseId} Value: {ord.ValueOfProducts} Data: {ord.DateOfOrder}");
-            }
+            //foreach (Orders ord in order)
+            //{
+            //    Console.WriteLine($"id = {ord.Id} ID Заказа: {ord.ProductId} ClientID: {ord.ClientId} PurshaseID: {ord.PurshaseId} Value: {ord.ValueOfProducts} Data: {ord.DateOfOrder}");
+            //}
+            return orders;
         }
     }
 }
