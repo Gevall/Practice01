@@ -40,8 +40,10 @@ namespace Practice01
         /// <returns>Возвращает путь к файлу Excel</returns>
         private static string ReadPathFromConsole()
         {
-            Console.Write("Введите путь до файла с базой: ");
-            string path = Console.ReadLine() + ".xlsx";  //Так как мы знаем, что файл будет именно формата .xlsx, то не добавляем лишней проверки на расширение файла
+            Console.Write("Здравствуйте!" +
+                "\nВведите путь до файла с базой. Имя файла вводить без расширения .xlsx: ");
+            //Так как мы знаем, что файл будет именно формата .xlsx, то не добавляем лишней проверки на расширение файла
+            string path = Console.ReadLine() + ".xlsx";
             if (File.Exists(path))
             {
                 return path;
