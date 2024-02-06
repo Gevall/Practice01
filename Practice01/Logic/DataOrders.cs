@@ -9,9 +9,14 @@ using System.Threading.Tasks;
 
 namespace Practice01.Logic
 {
-    internal class ReadDataOrders : IReadDataOrders
+    internal class DataOrders : IDataOrders
     {
-        public List<Orders> ReadOrdersDataFromFile(string path)
+        /// <summary>
+        /// Получние данных о заказх из Книги Excel
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public async Task<List<Orders>> ReadOrdersDataFromFile(string path)
         {
             List<Orders> orders = new();
 
@@ -42,11 +47,6 @@ namespace Practice01.Logic
                     });
                 }
             }
-
-            //foreach (Orders ord in order)
-            //{
-            //    Console.WriteLine($"id = {ord.Id} ID Заказа: {ord.ProductId} ClientID: {ord.ClientId} PurshaseID: {ord.PurshaseId} Value: {ord.ValueOfProducts} Data: {ord.DateOfOrder}");
-            //}
             return orders;
         }
     }

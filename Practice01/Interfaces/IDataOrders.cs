@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Practice01.Interfaces
 {
-    internal interface IReadDataClients
+    internal interface IDataOrders
     {
-        public List<Clients> ReadClientsDataFromFile(string path);
+        public Task<List<Orders>> ReadOrdersDataFromFile(string path);
     }
 }

@@ -11,5 +11,7 @@ namespace Practice01.Interfaces
     internal interface IFindClient
     {
         public void PrintClientsBySearch(List<Goods> goods, List<Clients> clients, List<Orders> orders);
+
+        public void FindGoldenClient(List<Orders> orders, List<Clients> clients);
     }
 }

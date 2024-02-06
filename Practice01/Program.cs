@@ -9,21 +9,29 @@ namespace Practice01
     internal class Program
     {
 
-        public static List<Goods> goodsBase;
-        public static List<Clients> clientsBase;
-        public static List<Orders> ordersBase;
+        public static List<Goods> goodsBase; // База с данными товаров
+        public static List<Clients> clientsBase; // База с данными клиентов
+        public static List<Orders> ordersBase; //База с данными заказов
+
         static void Main(string[] args)
         {
+            LoadingDataAsync();
+        }
 
-            IReadDataGoods goods = new ReadDataGoods();
-            IReadDataClients clients = new ReadDataClients();
-            IReadDataOrders orders = new ReadDataOrders();
+
+        /// <summary>
+        /// Загрузка основных данных
+        /// </summary>
+        private static async Task LoadingDataAsync()
+        {
+            IDataGoods goods = new DataGoods();
+            IDataClients clients = new DataClients();
+            IDataOrders orders = new DataOrders();
             string path = ReadPathFromConsole();
-            goodsBase = goods.ReadGoodsDataFromFile(path);
-            clientsBase = clients.ReadClientsDataFromFile(path);
-            ordersBase = orders.ReadOrdersDataFromFile(path);
-            MainMenu(path);
-
+            goodsBase = await goods.ReadGoodsDataFromFile(path);
+            clientsBase = await clients.ReadClientsDataFromFile(path);
+            ordersBase = await orders.ReadOrdersDataFromFile(path);
+            MainMenu(path, goods, clients, orders);
         }
 
         /// <summary>
@@ -45,29 +53,46 @@ namespace Practice01
             }
         }
 
-        private static void MainMenu(string path)
+        /// <summary>
+        /// Меню выбора программы
+        /// </summary>
+        /// <param name="path">Путь к файлу с книгой Excel</param>
+        /// <param name="goods">База с товарами</param>
+        /// <param name="clients">База с клиентами</param>
+        /// <param name="orders">База с заказами</param>
+        private static void MainMenu(string path, IDataGoods goods, IDataClients clients, IDataOrders orders)
         {
+            IFindClient find = new FindClient();
             bool exitFromProgram = true;
-            int choice;
             while(exitFromProgram)
             {
-                Console.WriteLine("Меню:" +
+                Console.WriteLine("\nМеню:" +
                     "\n  1) Выберете \"1\" для поиска клиентов по заказанному товару." +
+                    "\n  2) Выберете \"2\" для редактирвоания информации о клиенте." +
+                    "\n  3) Выберете \"3\" для поиска клиента с наибольшим количеством заказов" +
                     "\n  0) Выйти из программы");
-                choice = Int32.Parse(Console.ReadLine());
-                switch(choice)
+                if (Int32.TryParse(Console.ReadLine(), out int choice))
                 {
-                    case 0:
-                        exitFromProgram= false;
-                        break;
-                    case 1:
-                        IFindClient find = new FindClient();
-                        find.PrintClientsBySearch(goodsBase, clientsBase, ordersBase);
-                        break;
-                    default:
-                        Console.WriteLine("Неизвестная команда! Пожалуйста выберете значение из списка!");
-                        break;
+                    switch(choice)
+                    {
+                        case 0:
+                            exitFromProgram= false;
+                            break;
+                        case 1:
+                            find.PrintClientsBySearch(goodsBase, clientsBase, ordersBase);
+                            break;
+                        case 2:
+                            clients.EditClientInfo(path, clientsBase);
+                            break;
+                        case 3:
+                            find.FindGoldenClient(ordersBase, clientsBase);
+                            break;
+                        default:
+                            Console.WriteLine("Неизвестная команда! Пожалуйста выберете значение из списка!");
+                            break;
+                    }
                 }
+                else { Console.WriteLine("Введен неверный символ! Введите номер строки из списка!"); }
             }
             Console.WriteLine("Надеюсь Вам понравилось наше приложение!");
         }

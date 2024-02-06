@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace Practice01.Logic
 {
-    internal class ReadDataGoods : IReadDataGoods
+    internal class DataGoods : IDataGoods
     {
         /// <summary>
         /// Получение списка товаров и запись их в List
         /// </summary>
         /// <param name="path">Путь к файлу Excel</param>
-        public List<Goods> ReadGoodsDataFromFile(string path)
+        public async Task<List<Goods>> ReadGoodsDataFromFile(string path)
         {
             List<Goods> goods = new();
+
             var wbBook = new XLWorkbook(path);
 
             var wsl = wbBook.Worksheet(1);
             var countOfRows = wsl.Rows();
-            //Console.WriteLine($">>> {countOfRows.Count()}");
 
             for (int i = 2; i < countOfRows.Count() + 1; i++)
             {
@@ -42,10 +42,6 @@ namespace Practice01.Logic
                     });
                 }
             }
-            //foreach (Goods good in goods)
-            //{
-            //    Console.WriteLine($"id = {good.Id} name = {good.NameOfProduct} numeric = {good.NumericValue} price = {good.Price}");
-            //}
 
             return goods;
         }
