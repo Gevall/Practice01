@@ -19,23 +19,25 @@ namespace Practice01.Logic
         public async Task<List<Orders>> ReadOrdersDataFromFile(string path)
         {
             List<Orders> orders = new();
-
+            // Создание экземпляра книги Excel
             var wbBook = new XLWorkbook(path);
-
+            // Получение нужного листа из созданной книги
             var wsl = wbBook.Worksheet(3);
+            //Получение количества заполненных строк
             var countOfRows = wsl.Rows();
 
-
+            // чтение данных по строкам
             for (int i = 2; i < countOfRows.Count() + 1; i++)
             {
                 var row = wsl.Row(i);
-
+                // Проверка строки на пустосту
                 if (row.IsEmpty())
                 {
                     break;
                 }
                 else
                 {
+                    // Добавление данных строки в List
                     orders.Add(new Orders
                     {
                         Id = Int32.Parse(row.Cell(1).GetValue<string>()),

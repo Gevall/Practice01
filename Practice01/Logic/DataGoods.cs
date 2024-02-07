@@ -19,20 +19,25 @@ namespace Practice01.Logic
         {
             List<Goods> goods = new();
 
+            // Создание экземпляра книги Excel
             var wbBook = new XLWorkbook(path);
-
+            // Получение нужного листа из созданной книги
             var wsl = wbBook.Worksheet(1);
+            //ПОлучение количества заполненных строк
             var countOfRows = wsl.Rows();
 
+            // чтение данных по строкам
             for (int i = 2; i < countOfRows.Count() + 1; i++)
             {
                 var row = wsl.Row(i);
+                // Проверка строки на пустосту
                 if (row.IsEmpty())
                 {
                     break;
                 }
                 else
                 {
+                    // Добавление данных строки в List
                     goods.Add(new Goods
                     {
                         Id = Int32.Parse(row.Cell(1).GetValue<string>()),

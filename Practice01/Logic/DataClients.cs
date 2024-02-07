@@ -20,12 +20,14 @@ namespace Practice01.Logic
         /// <param name="clients">Список клиентов загруженных из книги в List</param>
         public void EditClientInfo(string path, List<Clients> clients)
         {
+            // Вывод списка клиентов на экран
             foreach (Clients client in clients)
             {
                 Console.WriteLine($"Клиент: {client.NameOfOrganisation}");
             }
             Console.Write("\nВведите название организации, где нужно изменить контактное лицо: ");
             string editClient = Console.ReadLine();
+            // Поиск клиента в базе, если найден будем редактировать, иначе говорим что клиент не найден
             var editebleClient = clients.Find(x => x.NameOfOrganisation.ToLower() == editClient.ToLower());
             if (editebleClient != null)
             {
@@ -53,9 +55,10 @@ namespace Practice01.Logic
             for (int i  = 2; i < wsl.Rows().Count() + 1 ; i++)
             {
                 var row = wsl.Row(i);
-
+                // Поиск нужной строки для изменения
                 if (row.Cell(1).Value.ToString() == client.Id.ToString())
                 {
+                    // Вывод изменений пользователю
                     PrintChanges(row.Cell(4).Value.ToString(), client.ContactName, client.NameOfOrganisation);
                     row.Cell(4).Value = client.ContactName;
                     break;
@@ -84,22 +87,24 @@ namespace Practice01.Logic
         public async Task<List<Clients>> ReadClientsDataFromFile(string path)
         {
             List<Clients> clients = new();
-
+            // Создание экземпляра книги Excel
             var wbBook = new XLWorkbook(path);
-
+            // Получение нужного листа из созданной книги
             var wsl = wbBook.Worksheet(2);
+            //Получение количества заполненных строк
             var countOfRows = wsl.Rows();
-
+            // чтение данных по строкам
             for (int i = 2; i < countOfRows.Count() + 1; i++)
             {
                 var row = wsl.Row(i);
-
+                // Проверка строки на пустосту
                 if (row.IsEmpty())
                 {
                     break;
                 }
                 else
                 {
+                    // Добавление данных строки в List
                     clients.Add(new Clients
                     {
                         Id = Int32.Parse(row.Cell(1).GetValue<string>()),
